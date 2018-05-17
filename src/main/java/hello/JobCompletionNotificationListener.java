@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
 
+
 	private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 
 	@Override

@@ -54,7 +54,8 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Job job() {
-		return jobs.get("job").start(generatePdf()).build();
+	public Job generatePdfJob() {
+		return jobs.get("generatePdfJob").start(generatePdf()).build();
+	
 	}
 }

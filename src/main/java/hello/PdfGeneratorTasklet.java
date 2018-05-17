@@ -8,6 +8,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 
 public class PdfGeneratorTasklet implements Tasklet, InitializingBean {
 
@@ -19,9 +20,13 @@ public class PdfGeneratorTasklet implements Tasklet, InitializingBean {
 	public static final String TARGET = "src/main/resources/results/generatedPdf/";
 	/** The path to the resulting PDF file. */
 	public static final String DEST = String.format("%stest.pdf", TARGET);
+	
+    @Value("${test.value}")
+    private String test;
 
 	@Override
 	public RepeatStatus execute(StepContribution arg0, ChunkContext arg1) throws Exception {
+		System.out.println("**********************"+this.test);
 		File file = new File(TARGET);
 		file.mkdirs();
 		HtmlToPdf htpdf = new HtmlToPdf();
