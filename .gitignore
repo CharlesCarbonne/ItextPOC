@@ -116,5 +116,6 @@ buildNumber.properties
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
 
-
+# Itext licence key ##
+itextkey-523953391946_0.xml
 # End of https://www.gitignore.io/api/java,linux,maven,eclipse
