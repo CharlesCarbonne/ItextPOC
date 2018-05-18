@@ -1,6 +1,7 @@
 package hello;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.itextpdf.html2pdf.ConverterProperties;
@@ -26,7 +27,7 @@ public class HtmlToPdf {
 	    
 	    HtmlConverter.convertToPdf(new File(src), new File(dest), properties);
 		System.out.println("pdf généré!");
-	}
+}
 	
 	
 }

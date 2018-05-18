@@ -118,4 +118,8 @@ buildNumber.properties
 
 # Itext licence key ##
 itextkey-523953391946_0.xml
+
+*.pdf
+*.html
+
 # End of https://www.gitignore.io/api/java,linux,maven,eclipse
