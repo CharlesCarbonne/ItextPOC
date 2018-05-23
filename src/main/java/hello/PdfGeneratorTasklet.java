@@ -1,7 +1,6 @@
 package hello;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,23 +31,27 @@ public class PdfGeneratorTasklet implements Tasklet, InitializingBean {
 
 	@Override
 	public RepeatStatus execute(StepContribution arg0, ChunkContext arg1) throws Exception {
-		File folder = new File("/home/user/LEGIFRANCE/itextPoc/src/main/resources/html/");
-		File[] listOfFiles = folder.listFiles();
-		// List<String> listOfFilesNames = this.getListofFilesNames(listOfFiles);
-		for (File src : listOfFiles) {
-			File target = new File(TARGET);
-			target.mkdirs();
-			HtmlToPdf htpdf = new HtmlToPdf();
-			String srcPath = BASEURI + src.getName();
-			String destPath = TARGET + src.getName().replace(".html", ".pdf");
-			try {
-				htpdf.createPdf(BASEURI, srcPath, destPath);
-				throw new Exception("test");
-			} catch (Exception e) {
-				// Fichier d'erreur
-				PrintWriter writer = new PrintWriter(BASEURI+"error.txt");
-				e.printStackTrace(writer);
-				writer.close();
+		File baseFolder = new File(BASEURI);
+		File[] directories = baseFolder.listFiles(File::isDirectory);
+		for (File dir : directories) {
+			File[] listOfFiles = dir.listFiles();
+			for (File src : listOfFiles) {
+				System.out.println(dir.getName());
+				File target = new File(TARGET);
+				target.mkdirs();
+				HtmlToPdf htpdf = new HtmlToPdf();
+				String srcPath = BASEURI + dir.getName() + "/" + src.getName();
+				System.out.println(srcPath);
+				String destPath = TARGET + src.getName().replace(".html", ".pdf");
+				try {
+					htpdf.createPdf(BASEURI, srcPath, destPath);
+					throw new Exception("test");
+				} catch (Exception e) {
+					// Fichier d'erreur
+					PrintWriter writer = new PrintWriter(BASEURI + dir.getName() + "error.txt");
+					e.printStackTrace(writer);
+					writer.close();
+				}
 			}
 		}
 		return RepeatStatus.FINISHED;
