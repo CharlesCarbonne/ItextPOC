@@ -2,6 +2,7 @@ package hello;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,42 +19,39 @@ public class PdfGeneratorTasklet implements Tasklet, InitializingBean {
 	/** The target folder for the result. */
 	public static final String TARGET = "src/main/resources/results/generatedPdf/";
 
-	
-	File file = new File(BASEURI);
-	File folder = new File("/home/user/LEGIFRANCE/itextPoc/src/main/resources/html/");
-	File[] listOfFiles = folder.listFiles();
-	
-	List<String> listOfFilesNames = this.getListofFilesNames(listOfFiles);
-	
-	
-public List<String> getListofFilesNames(File[] files) {
-	List<String> filesNames = new ArrayList<String>();
-	for (File file : files) {
-	    if (file.isFile() && file.getName().contains(".html")) {
-	        System.out.println(file.getName());
-	        filesNames.add(file.getName());
-	    }
+	public List<String> getListofFilesNames(File[] files) {
+		List<String> filesNames = new ArrayList<String>();
+		for (File file : files) {
+			if (file.isFile() && file.getName().contains(".html")) {
+				System.out.println(file.getName());
+				filesNames.add(file.getName());
+			}
+		}
+		return filesNames;
 	}
-	return filesNames;
-}
+
 	@Override
 	public RepeatStatus execute(StepContribution arg0, ChunkContext arg1) throws Exception {
-		this.getListofFilesNames(listOfFiles);
-
-		for (String file : listOfFilesNames) {
+		File folder = new File("/home/user/LEGIFRANCE/itextPoc/src/main/resources/html/");
+		File[] listOfFiles = folder.listFiles();
+		// List<String> listOfFilesNames = this.getListofFilesNames(listOfFiles);
+		for (File src : listOfFiles) {
 			File target = new File(TARGET);
 			target.mkdirs();
 			HtmlToPdf htpdf = new HtmlToPdf();
-			String srcPath = BASEURI+file;
-			String destPath = TARGET+file.replace(".html", ".pdf");
+			String srcPath = BASEURI + src.getName();
+			String destPath = TARGET + src.getName().replace(".html", ".pdf");
 			try {
 				htpdf.createPdf(BASEURI, srcPath, destPath);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new Exception("test");
+			} catch (Exception e) {
+				// Fichier d'erreur
+				PrintWriter writer = new PrintWriter(BASEURI+"error.txt");
+				e.printStackTrace(writer);
+				writer.close();
 			}
 		}
-return RepeatStatus.FINISHED;
+		return RepeatStatus.FINISHED;
 	}
 
 	@Override
