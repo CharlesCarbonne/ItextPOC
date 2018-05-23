@@ -48,7 +48,7 @@ public class PdfGeneratorTasklet implements Tasklet, InitializingBean {
 					throw new Exception("test");
 				} catch (Exception e) {
 					// Fichier d'erreur
-					PrintWriter writer = new PrintWriter(BASEURI + dir.getName() + "error.txt");
+					PrintWriter writer = new PrintWriter(dir.getName() + "error.txt");
 					e.printStackTrace(writer);
 					writer.close();
 				}
